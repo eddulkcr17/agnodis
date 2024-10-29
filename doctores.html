@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Doctores</title>
+    <style>
+        /* Estilos generales */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buscador */
+        .doctor-search {
+            margin-bottom: 20px;
+        }
+
+        .doctor-search input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Grilla de doctores */
+        .doctor-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .doctor-item {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .doctor-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .doctor-item img {
+            width: 100%;
+            max-width: 150px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .doctor-item h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .doctor-item h4 {
+            font-size: 1.1rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100px;
+            border-radius: 50%;
+        }
+
+        .modal-content h3 {
+            font-size: 1.6rem;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .modal-content h4 {
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .doctor-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .doctor-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="doctores.html">Doctores</a>
+    </nav>
+
+    <div class="container">
+        <h1>Nuestros Doctores</h1>
+        
+        <!-- Buscador por especialidad -->
+        <div class="doctor-search">
+            <input type="text" id="searchInput" placeholder="Buscar por especialidad" oninput="filterDoctors()">
+        </div>
+
+        <!-- Lista de doctores -->
+        <div class="doctor-list" id="doctorList">
+            <!-- Doctor 1 -->
+            <div class="doctor-item" data-specialty="Cardiología" onclick="openModal('Dr. Juan Pérez', 'Cardiología', 'Especialista en enfermedades del corazón y sistema cardiovascular.')">
+                <img src="https://via.placeholder.com/150" alt="Doctor 1">
+                <h3>Dr. Juan Pérez</h3>
+                <h4>Cardiología</h4>
+            </div>
+
+            <!-- Doctor 2 -->
+            <div class="doctor-item" data-specialty="Pediatría" onclick="openModal('Dra. Ana García', 'Pediatría', 'Especialista en el cuidado de la salud infantil y adolescente.')">
+                <img src="https://via.placeholder.com/150" alt="Doctor 2">
+                <h3>Dra. Ana García</h3>
+                <h4>Pediatría</h4>
+            </div>
+
+            <!-- Doctor 3 -->
+            <div class="doctor-item" data-specialty="Neurología" onclick="openModal('Dr. Carlos López', 'Neurología', 'Especialista en el tratamiento de enfermedades del sistema nervioso.')">
+                <img src="https://via.placeholder.com/150" alt="Doctor 3">
+                <h3>Dr. Carlos López</h3>
+                <h4>Neurología</h4>
+            </div>
+            <div class="doctor-item" data-specialty="Neurología" onclick="openModal('Dr. Carlos López2', 'Neurología', 'Especialista en el tratamiento de enfermedades del sistema nervioso.')">
+                <img src="https://via.placeholder.com/150" alt="Doctor 3">
+                <h3>Dr. Carlos López2</h3>
+                <h4>Neurología</h4>
+            </div>
+
+            <!-- Doctor 4 -->
+            <div class="doctor-item" data-specialty="Dermatología" onclick="openModal('Dra. María Torres', 'Dermatología', 'Especialista en el tratamiento de enfermedades de la piel.')">
+                <img src="https://via.placeholder.com/150" alt="Doctor 4">
+                <h3>Dra. María Torres</h3>
+                <h4>Dermatología</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="doctorModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img src="https://via.placeholder.com/100" alt="Doctor">
+            <h3 id="modalDoctorName"></h3>
+            <h4 id="modalDoctorSpecialty"></h4>
+            <p id="modalDoctorDescription"></p>
+        </div>
+    </div>
+
+    <script>
+        function filterDoctors() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const doctors = document.querySelectorAll(".doctor-item");
+
+            doctors.forEach(doctor => {
+                const specialty = doctor.getAttribute("data-specialty").toLowerCase();
+                if (specialty.includes(searchInput)) {
+                    doctor.style.display = "block";
+                } else {
+                    doctor.style.display = "none";
+                }
+            });
+        }
+
+        function openModal(name, specialty, description) {
+            document.getElementById("modalDoctorName").textContent = name;
+            document.getElementById("modalDoctorSpecialty").textContent = specialty;
+            document.getElementById("modalDoctorDescription").textContent = description;
+            document.getElementById("doctorModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("doctorModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("doctorModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
